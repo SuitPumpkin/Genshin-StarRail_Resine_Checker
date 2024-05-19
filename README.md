@@ -23,3 +23,5 @@ SuitPumpkins Resine Checker is a Python-based tool for checking daily resources 
 1. Navigate to the extracted directory.
 2. Run `Main.py` using Python.
 
+### Notes
+- the info on the app is in spanish but in future updates may add an option to have various languajes
