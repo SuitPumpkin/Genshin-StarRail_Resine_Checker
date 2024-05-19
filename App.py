@@ -1,7 +1,8 @@
 import sys
 import asyncio
 from datetime import datetime, timezone
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame, QPushButton, QSizePolicy, QSpacerItem
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QGridLayout
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import Qt
 import genshin
 from qasync import QEventLoop, asyncSlot
@@ -25,8 +26,10 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
+        icon = QIcon("Icono.png")
+        self.setWindowIcon(icon)
         # Establecer las dimensiones de la ventana y evitar que se pueda redimensionar
-        self.setFixedSize(800, 500)
+        self.setFixedSize(800, 300)
         self.setWindowTitle("Resine Checker")
 
         # Crear el widget central
@@ -34,75 +37,79 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(central_widget)
         central_widget.setStyleSheet("background-color: #262626;")
 
-        # Crear el layout horizontal
-        main_layout = QHBoxLayout()
+        # Crear el layout principal como QVBoxLayout
+        main_layout = QVBoxLayout()
 
-        # Crear la primera sección
+        # Crear la sección superior
+        upper_layout = QHBoxLayout()
+
+        # Crear la primera sección (Genshin Impact)
         section1 = QWidget()
-        section1.setFixedSize(400, 500)
         section1_layout = QVBoxLayout()
-        section1_label = QLabel("Genshin Impact")
-        section1_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        section1_label.setStyleSheet("font-weight: bold; font-size: 18px;")
-        section1_layout.addWidget(section1_label)
+        section1.setLayout(section1_layout)
+
+        # Icono Genshin Impact
+        icon_genshin = QLabel()
+        pixmap_genshin = QPixmap("icono-genshin.png").scaled(400, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation)  # Doble de tamaño
+        icon_genshin.setPixmap(pixmap_genshin)
+        icon_genshin.setAlignment(Qt.AlignCenter)
+        icon_genshin.setStyleSheet("margin-top: 20px; margin-bottom: 20px;")
+        section1_layout.addWidget(icon_genshin)
 
         # Información de Genshin Impact
-        self.genshin_impact_info_label = QLabel("Obteniendo información...")
-        self.genshin_impact_info_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        self.genshin_impact_info_label.setStyleSheet("color: white;")
-        section1_layout.addWidget(self.genshin_impact_info_label)
+        self.genshin_resin_label = QLabel()
+        self.genshin_resin_label.setStyleSheet("color: white;")
+        self.genshin_resin_label.setAlignment(Qt.AlignCenter)  # Centrar horizontalmente
+        section1_layout.addWidget(self.genshin_resin_label)
 
-        section1_layout.addStretch(1)  # Para empujar el label hacia la parte superior
-        section1.setLayout(section1_layout)
-        section1.setStyleSheet("background-color: #262626; color: white;")
+        self.genshin_tea_label = QLabel()
+        self.genshin_tea_label.setStyleSheet("color: white;")
+        self.genshin_tea_label.setAlignment(Qt.AlignCenter)  # Centrar horizontalmente
+        section1_layout.addWidget(self.genshin_tea_label)
 
-        # Crear la división
-        divider = QFrame()
-        divider.setFrameShape(QFrame.VLine)
-        divider.setFrameShadow(QFrame.Sunken)
-        divider.setStyleSheet("background-color: #767676; width: 2px;")
+        self.genshin_missions_label = QLabel()
+        self.genshin_missions_label.setStyleSheet("color: white;")
+        self.genshin_missions_label.setAlignment(Qt.AlignCenter)  # Centrar horizontalmente
+        section1_layout.addWidget(self.genshin_missions_label)
 
-        # Crear la segunda sección
+        # Crear la segunda sección (Honkai Star Rail)
         section2 = QWidget()
-        section2.setFixedSize(400, 500)
         section2_layout = QVBoxLayout()
-        section2_label = QLabel("Honkai Star Rail")
-        section2_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        section2_label.setStyleSheet("font-weight: bold; font-size: 18px;")
-        section2_layout.addWidget(section2_label)
+        section2.setLayout(section2_layout)
+
+        # Icono Honkai Star Rail
+        icon_star_rail = QLabel()
+        pixmap_star_rail = QPixmap("icono-star-rail.png").scaled(400, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation)  # Doble de tamaño
+        icon_star_rail.setPixmap(pixmap_star_rail)
+        icon_star_rail.setAlignment(Qt.AlignCenter)
+        section2_layout.addWidget(icon_star_rail)
 
         # Información de Honkai Star Rail
-        self.star_rail_info_label = QLabel("Obteniendo información...")
-        self.star_rail_info_label.setAlignment(Qt.AlignHCenter | Qt.AlignTop)
-        self.star_rail_info_label.setStyleSheet("color: white;")
-        section2_layout.addWidget(self.star_rail_info_label)
+        self.star_rail_power_label = QLabel()
+        self.star_rail_power_label.setStyleSheet("color: white;")
+        self.star_rail_power_label.setAlignment(Qt.AlignCenter)  # Centrar horizontalmente
+        section2_layout.addWidget(self.star_rail_power_label)
 
-        section2_layout.addStretch(1)  # Para empujar el label hacia la parte superior
-        section2.setLayout(section2_layout)
-        section2.setStyleSheet("background-color: #262626; color: white;")
+        self.star_rail_train_label = QLabel()
+        self.star_rail_train_label.setStyleSheet("color: white;")
+        self.star_rail_train_label.setAlignment(Qt.AlignCenter)  # Centrar horizontalmente
+        section2_layout.addWidget(self.star_rail_train_label)
 
-        # Añadir las secciones y el divisor al layout principal
-        main_layout.addWidget(section1)
-        main_layout.addWidget(divider)
-        main_layout.addWidget(section2)
+        # Añadir las secciones al layout superior
+        upper_layout.addWidget(section1)
+        upper_layout.addWidget(section2)
 
-        # Establecer el layout principal en el widget central
-        central_widget.setLayout(main_layout)
+        # Añadir el layout superior al layout principal
+        main_layout.addLayout(upper_layout)
 
-        # Añadir el botón de Actualizar centrado horizontal y verticalmente
-        update_button_layout = QHBoxLayout()
-        update_button_layout.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        # Añadir el botón de Actualizar centrado horizontalmente debajo de las secciones
         update_button = QPushButton("Actualizar")
         update_button.setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; font-size: 14px;")
         update_button.clicked.connect(self.update_info)
-        update_button_layout.addWidget(update_button)
+        main_layout.addWidget(update_button, alignment=Qt.AlignHCenter)
 
-        # Añadir un espacio vertical para centrar el botón verticalmente
-        spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        update_button_layout.addItem(spacer)
-
-        main_layout.addLayout(update_button_layout)
-
+        # Establecer el layout principal en el widget central
+        central_widget.setLayout(main_layout)
 
         # Obtener la información de Genshin Impact y Honkai Star Rail
         asyncio.ensure_future(self.get_game_info())
@@ -124,30 +131,25 @@ class MainWindow(QMainWindow):
             now = datetime.now(timezone.utc)
 
             # Formatear la información
-            genshin_text = (
-                f"Resina Actual: {genshin_info.current_resin}/{genshin_info.max_resin}\n"
-                f"Resina llena en: {genshin_info.resin_recovery_time - now}\n"
-                f"Misiones Diarias Completadas: {genshin_info.completed_commissions}/{genshin_info.max_commissions}\n"
-                f"Dinero de la Relajatetera: {genshin_info.current_realm_currency}/{genshin_info.max_realm_currency}\n"
-                f"Relajatetera llena en: {genshin_info.realm_currency_recovery_time - now}\n"
-            )
-
-            star_rail_text = (
-                f"Poder de trazacaminos actual: {star_rail_info.current_stamina}/{star_rail_info.max_stamina}\n"
-                f"Tiempo para llenarse: {star_rail_info.stamina_recover_time}\n"
-                f"Entrenamiento diario completado: {star_rail_info.current_train_score//100}/{star_rail_info.max_train_score//100}"
-            )
-
-            # Actualizar las etiquetas con la información
-            self.genshin_impact_info_label.setText(genshin_text)
-            self.star_rail_info_label.setText(star_rail_text)
+            self.genshin_resin_label.setText(f"Resina: {genshin_info.current_resin}/{genshin_info.max_resin} Se llena en: {genshin_info.resin_recovery_time - now}")
+            self.genshin_tea_label.setText(f"Tetera: {genshin_info.current_realm_currency}/{genshin_info.max_realm_currency} Se llena en: {genshin_info.realm_currency_recovery_time - now}")
+            self.genshin_missions_label.setText(f"Misiones completas: {genshin_info.completed_commissions}/{genshin_info.max_commissions}")
+            self.star_rail_power_label.setText(f"Poder de Trazacaminos: {star_rail_info.current_stamina}/{star_rail_info.max_stamina} Se llena en: {star_rail_info.stamina_recovery_time - now}")
+            self.star_rail_train_label.setText(f"Entrenamiento diario completado: {star_rail_info.current_train_score//100}/{star_rail_info.max_train_score//100}")
+            
         except Exception as e:
-            self.genshin_impact_info_label.setText(f"Error al obtener la información: {str(e)}")
-            self.star_rail_info_label.setText(f"Error al obtener la información: {str(e)}")
+            self.genshin_resin_label.setText(f"Error al obtener la información: {str(e)}")
+            self.genshin_tea_label.setText("")
+            self.genshin_missions_label.setText("")
+            self.star_rail_power_label.setText(f"Error al obtener la información: {str(e)}")
+            self.star_rail_train_label.setText("")
 
     def update_info(self):
-        self.genshin_impact_info_label.setText(f"Obteniendo información...")
-        self.star_rail_info_label.setText(f"Obteniendo información...")
+        self.genshin_resin_label.setText("Obteniendo información...")
+        self.genshin_tea_label.setText("")
+        self.genshin_missions_label.setText("")
+        self.star_rail_power_label.setText("Obteniendo información...")
+        self.star_rail_train_label.setText("")
         asyncio.ensure_future(self.get_game_info())
 
 if __name__ == "__main__":

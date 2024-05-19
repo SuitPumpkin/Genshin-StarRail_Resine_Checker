@@ -1,6 +1,6 @@
 # SuitPumpkins-Resine-Checker
 
-![image](https://github.com/SuitPumpkin/SuitPumpkins-Resine-Checker/assets/109180144/e4f11a56-681b-46b7-a711-a47d358b3f81)
+![image](https://github.com/SuitPumpkin/SuitPumpkins-Resine-Checker/assets/109180144/4f70cdfd-e965-4fb2-b29f-7ad55eefacc7)
 
 SuitPumpkins Resine Checker is a Python-based tool for checking daily resources in Genshin Impact & Honkai Star Rail, leveraging the Genshin API.
 
@@ -11,7 +11,7 @@ SuitPumpkins Resine Checker is a Python-based tool for checking daily resources 
 - A hoyoverse account for Genshin Impact & Honkai Star Rail
 
 ### Installation
-1. Download the latest release from the [releases page](link_to_releases).
+1. Download the latest release from the [releases page](https://github.com/SuitPumpkin/SuitPumpkins-Resine-Checker/releases).
 2. Extract the downloaded files to a location of your choice.
 
 ### Setup
