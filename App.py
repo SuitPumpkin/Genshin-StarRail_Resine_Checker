@@ -1,7 +1,7 @@
 import sys
 import asyncio
 from datetime import datetime, timezone
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QFrame, QPushButton, QSizePolicy, QSpacerItem
 from PyQt5.QtCore import Qt
 import genshin
 from qasync import QEventLoop, asyncSlot
@@ -89,6 +89,21 @@ class MainWindow(QMainWindow):
         # Establecer el layout principal en el widget central
         central_widget.setLayout(main_layout)
 
+        # Añadir el botón de Actualizar centrado horizontal y verticalmente
+        update_button_layout = QHBoxLayout()
+        update_button_layout.setAlignment(Qt.AlignHCenter | Qt.AlignVCenter)
+        update_button = QPushButton("Actualizar")
+        update_button.setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; font-size: 14px;")
+        update_button.clicked.connect(self.update_info)
+        update_button_layout.addWidget(update_button)
+
+        # Añadir un espacio vertical para centrar el botón verticalmente
+        spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        update_button_layout.addItem(spacer)
+
+        main_layout.addLayout(update_button_layout)
+
+
         # Obtener la información de Genshin Impact y Honkai Star Rail
         asyncio.ensure_future(self.get_game_info())
 
@@ -100,7 +115,7 @@ class MainWindow(QMainWindow):
 
         try:
             await client.login_with_password(email, password)
-
+            
             # Obtener información de Genshin Impact
             genshin_info = await client.get_notes()
             # Obtener información de Honkai Star Rail
@@ -129,6 +144,11 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.genshin_impact_info_label.setText(f"Error al obtener la información: {str(e)}")
             self.star_rail_info_label.setText(f"Error al obtener la información: {str(e)}")
+
+    def update_info(self):
+        self.genshin_impact_info_label.setText(f"Obteniendo información...")
+        self.star_rail_info_label.setText(f"Obteniendo información...")
+        asyncio.ensure_future(self.get_game_info())
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

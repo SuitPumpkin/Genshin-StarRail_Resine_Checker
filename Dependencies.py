@@ -1,6 +1,7 @@
 import subprocess
 import sys
-import pkg_resources
+from importlib.metadata import version, PackageNotFoundError
+import os
 
 # Lista de dependencias
 dependencies = [
@@ -16,21 +17,15 @@ dependencies = [
 ]
 
 def install(package):
-    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 # Comprobar e instalar las dependencias
 for package in dependencies:
     try:
-        # Verificar si el paquete está instalado
-        pkg_resources.get_distribution(package)
-        print(f"{package} ya está instalado.")
-    except pkg_resources.DistributionNotFound:
+        # Verificar si el paquete está instalado y obtener su versión
+        installed_version = version(package)
+        print(f"{package} está instalado (versión {installed_version}).")
+    except PackageNotFoundError:
         # El paquete no está instalado
-        print(f"Instalando {package}...")
+        print(f"{package} no está instalado. Instalando...")
         install(package)
-    except pkg_resources.VersionConflict:
-        # El paquete está instalado pero no está actualizado
-        print(f"Actualizando {package}...")
-        install(package)
-
-print("Todas las dependencias han sido instaladas y/o actualizadas.")
