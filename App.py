@@ -16,10 +16,10 @@ with open("Credenciales.txt", 'r') as file:
         # Eliminar espacios en blanco alrededor de la línea
         line = line.strip()
         # Comprobar si la línea contiene el correo
-        if line.startswith('u:'):
+        if line.startswith('m:'):
             correo = line[2:].strip()
         # Comprobar si la línea contiene la contraseña
-        elif line.startswith('c:'):
+        elif line.startswith('p:'):
             contraseña = line[2:].strip()
 
 class MainWindow(QMainWindow):
@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(icon)
         # Establecer las dimensiones de la ventana y evitar que se pueda redimensionar
         self.setFixedSize(800, 300)
-        self.setWindowTitle("Resine Checker")
+        self.setWindowTitle("Resin Checker")
 
         # Crear el widget central
         central_widget = QWidget()
@@ -103,7 +103,7 @@ class MainWindow(QMainWindow):
         main_layout.addLayout(upper_layout)
 
         # Añadir el botón de Actualizar centrado horizontalmente debajo de las secciones
-        update_button = QPushButton("Actualizar")
+        update_button = QPushButton("Update")
         update_button.setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; font-size: 14px;")
         update_button.clicked.connect(self.update_info)
         main_layout.addWidget(update_button, alignment=Qt.AlignHCenter)
@@ -131,24 +131,24 @@ class MainWindow(QMainWindow):
             now = datetime.now(timezone.utc)
 
             # Formatear la información
-            self.genshin_resin_label.setText(f"Resina: {genshin_info.current_resin}/{genshin_info.max_resin} Se llena en: {genshin_info.resin_recovery_time - now}")
-            self.genshin_tea_label.setText(f"Tetera: {genshin_info.current_realm_currency}/{genshin_info.max_realm_currency} Se llena en: {genshin_info.realm_currency_recovery_time - now}")
-            self.genshin_missions_label.setText(f"Misiones completas: {genshin_info.completed_commissions}/{genshin_info.max_commissions}")
-            self.star_rail_power_label.setText(f"Poder de Trazacaminos: {star_rail_info.current_stamina}/{star_rail_info.max_stamina} Se llena en: {star_rail_info.stamina_recovery_time - now}")
-            self.star_rail_train_label.setText(f"Entrenamiento diario completado: {star_rail_info.current_train_score//100}/{star_rail_info.max_train_score//100}")
+            self.genshin_resin_label.setText(f"Resin: {genshin_info.current_resin}/{genshin_info.max_resin} fills in: {genshin_info.resin_recovery_time - now}")
+            self.genshin_tea_label.setText(f"Realm Currency: {genshin_info.current_realm_currency}/{genshin_info.max_realm_currency} fills in: {genshin_info.realm_currency_recovery_time - now}")
+            self.genshin_missions_label.setText(f"Daily Missions: {genshin_info.completed_commissions}/{genshin_info.max_commissions}")
+            self.star_rail_power_label.setText(f"Trailblazer Power: {star_rail_info.current_stamina}/{star_rail_info.max_stamina} fills in: {star_rail_info.stamina_recovery_time - now}")
+            self.star_rail_train_label.setText(f"Daily Training: {star_rail_info.current_train_score//100}/{star_rail_info.max_train_score//100}")
             
         except Exception as e:
-            self.genshin_resin_label.setText(f"Error al obtener la información: {str(e)}")
+            self.genshin_resin_label.setText(f"Error obtaining information: {str(e)}")
             self.genshin_tea_label.setText("")
             self.genshin_missions_label.setText("")
-            self.star_rail_power_label.setText(f"Error al obtener la información: {str(e)}")
+            self.star_rail_power_label.setText(f"Error obtaining information: {str(e)}")
             self.star_rail_train_label.setText("")
 
     def update_info(self):
-        self.genshin_resin_label.setText("Obteniendo información...")
+        self.genshin_resin_label.setText("Getting information...")
         self.genshin_tea_label.setText("")
         self.genshin_missions_label.setText("")
-        self.star_rail_power_label.setText("Obteniendo información...")
+        self.star_rail_power_label.setText("Getting information...")
         self.star_rail_train_label.setText("")
         asyncio.ensure_future(self.get_game_info())
 
