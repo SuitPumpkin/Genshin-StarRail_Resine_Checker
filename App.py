@@ -11,7 +11,7 @@ correo = ""
 contraseña = ""
 
 # Leer el archivo de credenciales
-with open("Credenciales.txt", 'r') as file:
+with open("HoyoCredentials.txt", 'r') as file:
     for line in file:
         # Eliminar espacios en blanco alrededor de la línea
         line = line.strip()

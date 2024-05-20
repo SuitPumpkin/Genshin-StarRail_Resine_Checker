@@ -1,6 +1,6 @@
 # SuitPumpkins-Resin-Checker
 
-![image](https://github.com/SuitPumpkin/SuitPumpkins-Resine-Checker/assets/109180144/4f70cdfd-e965-4fb2-b29f-7ad55eefacc7)
+![image](https://github.com/SuitPumpkin/SuitPumpkins-Resine-Checker/assets/109180144/6342da07-0a8f-43a1-90ab-a1bb7c626f3e)
 
 SuitPumpkins Resin Checker is a Python-based tool for checking daily resources in Genshin Impact & Honkai Star Rail, leveraging the Genshin API.
 
