@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="Imagenes">
+    <file>icono-genshin.png</file>
+    <file>image 3.png</file>
+    <file>image 4.png</file>
+    <file>image 5.png</file>
+    <file>image 2.png</file>
+    <file>icono-star-rail.png</file>
+  </qresource>
+</RCC>
